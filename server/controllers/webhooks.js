@@ -60,14 +60,15 @@ export const clerkWebhooks = async (req, res) => {
 const stripeInstance = new Stripe(process.env.STRIPE_WEBHOOK_SECRET)
 
 export const stripeWebhooks = async (request, response) => {
-    const sig = request.headers['stripe-signature']
+    const sig = request.headers['stripe-signature'];
 
     let event;
 
     try {
-        event = Stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_WEBHOOK_SECRET)
-    } catch (err) {
-        response.status(400).send(`Webhook Error: ${err.message}`)
+        event = Stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    }
+    catch (err) {
+        response.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     // Handle the event
@@ -97,6 +98,7 @@ export const stripeWebhooks = async (request, response) => {
 
             break;
         }
+
         case 'payment_intent.payment_failed': {
             const paymentIntent = event.data.object;
             const paymentIntentId = paymentIntent.id;
@@ -113,7 +115,7 @@ export const stripeWebhooks = async (request, response) => {
 
             break;
         }
-        
+
         // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);
