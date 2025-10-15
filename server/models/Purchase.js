@@ -7,7 +7,7 @@ const PurchaseSchema = new mongoose.Schema({
         reuired: true
     },
 
-    UserId: {
+    userId: {
         type: String,
         ref: 'User',
         reuired: true
