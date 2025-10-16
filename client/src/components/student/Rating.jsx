@@ -12,7 +12,6 @@ const Rating = (initialRating, onRate) => {
   useEffect(() => {
     if (initialRating)
       setRating(initialRating)
-
   }, [initialRating])
 
   return (
